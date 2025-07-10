@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --poppins: 'Poppins', sans-serif;
+    --lato: 'Lato', sans-serif;
+
+    --light: #4f223a;
+    --blue: #501b34;
+    --light-blue: #929090;
+    --grey: #d6d2d2;
+    --dark-grey: #929090;
+    --dark: #f7f5f7;
+    --yellow: #5e2a5d;
+    --orange: #4d1d46;
+}
+
+body {
+    font-family: var(--poppins);
+    background: var(--grey);
+    margin: 0;
+    padding: 0;
+    color: var(--dark);
+}
+
+.main-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 32px;
+    color: var(--light);
+    margin-bottom: 40px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.card {
+    background-color: var(--light);
+    color: #fff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.card .icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    color: var(--grey);
+}
+
+.card.billing .icon {
+    color: var(--blue);
+}
+.card.schedule .icon {
+    color: var(--yellow);
+}
+.card.send .icon {
+    color: var(--orange);
+}
+.card.transfer .icon {
+    color: var(--light-blue);
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 600px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}
