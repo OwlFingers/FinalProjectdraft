@@ -54,8 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
         $stmt->bind_param("ids", $user_id, $deposit_amount, $details);
 
         if ($stmt->execute()) {
-            $message = "<p style='color:green;'>Deposit successful.</p>";
             $current_balance += $deposit_amount;
+
+            // Update balance in user table
+            $update_balance_query = "UPDATE user SET balance = ? WHERE user_id = ?";
+            $update_stmt = $conn->prepare($update_balance_query);
+            $update_stmt->bind_param("di", $current_balance, $user_id);
+            $update_stmt->execute();
+            $update_stmt->close();
+
+            $message = "<p style='color:green;'>Deposit successful.</p>";
         } else {
             $message = "<p style='color:red;'>Transaction failed.</p>";
         }
