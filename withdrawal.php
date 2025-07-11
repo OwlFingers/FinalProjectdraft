@@ -14,7 +14,6 @@ $password = "";
 $database = "bank";
 
 $conn = new mysqli($host, $username, $password, $database);
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -42,7 +41,7 @@ $stmt->close();
 
 $message = "";
 
-//withdrawal and transaction record
+//withdraw and transaction record
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
     $withdraw_amount = floatval($_POST['amount']);
 
@@ -58,8 +57,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['amount'])) {
         $stmt->bind_param("ids", $user_id, $negative_amount, $details);
 
         if ($stmt->execute()) {
-            $message = "<p style='color:green;'>Withdrawal successful.</p>";
             $current_balance -= $withdraw_amount;
+
+            //update balance in user table
+            $update_balance_query = "UPDATE user SET balance = ? WHERE user_id = ?";
+            $update_stmt = $conn->prepare($update_balance_query);
+            $update_stmt->bind_param("di", $current_balance, $user_id);
+            $update_stmt->execute();
+            $update_stmt->close();
+
+            $message = "<p style='color:green;'>Withdrawal successful.</p>";
         } else {
             $message = "<p style='color:red;'>Transaction failed.</p>";
         }
@@ -92,7 +99,6 @@ $conn->close();
             <li><a href="logout.php"><i class='bx bx-log-out'></i>Logout</a></li>
         </ul>
     </aside>
-
 
     <main class="main-content">
         <h2>Withdraw</h2>
