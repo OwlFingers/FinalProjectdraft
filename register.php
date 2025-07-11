@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssssss", $fname, $mname, $lname, $dob, $nationality, $balance, $currency_type, $hashed_password);
 
         if ($stmt->execute()) {
-            echo "<p style='color: green;'>User registered successfully! You may now login with your new account.</p>";
+            echo "<p style='color: green;'>User registered successfully! Your account number is <strong>" . $stmt->insert_id . "</strong>. You may now login with your new account.</p>";
         } else {
             echo "<p style='color: red;'>Error: " . $stmt->error . "</p>";
         }
